@@ -12,6 +12,19 @@
 
 > `npm run electron`
 
+
+> Error: electron安装失败
+>
+> 进入node_modules/electron 运行 `node install.js`
+
+> Error: Node Sass version 6.0.1 is incompatible with ^4.0.0.
+> sass版本不兼容
+>
+> ```
+> npm uninstall node-sass
+> npm install node-sass@4.14.1
+> ```
+
 ## 4. 打包项目
 
 > **第一步**
