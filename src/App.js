@@ -1,20 +1,44 @@
-import React from 'react';
-import './App.scss'
-import { Layout } from 'antd';
-import 'antd/dist/antd.css';
-const { Header, Footer, Sider, Content } = Layout;
+import React, {Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route,Switch, Link } from 'react-router-dom';
+import './css/App.css'
+
+const Todos = lazy(() => import('./components/Todos'));
+const DH_Input = lazy(() => import('./components/Second'));
 
 function App() {
   return (
-    <Layout className="main-page-layout">
-        <Sider className="main-page-sider">Sider</Sider>
-        <Layout className="main-page-layout-right">
-            <Header className="main-page-header">Header</Header>
-            <Content className="main-page-content">Content</Content>
-            <Footer className="main-page-footer">Footer</Footer>
-        </Layout>
-    </Layout>
+    <Router>
+      <div>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/todos">first</Link>
+        </li>
+        <li>
+          <Link to="/second">second</Link>
+        </li>
+      </ul>
+      <hr />
+      <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/todos" component={Todos}/>
+        <Route path="/second" component={DH_Input}/>
+      </Switch>
+    </Suspense>
+    </div>   
+  </Router>
   );
+}
+
+function Home() {
+  return(
+    <div className="home-content">
+      <h3> 看啥呢？动手啊！</h3>
+    </div>
+  )
 }
 
 export default App;

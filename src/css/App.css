@@ -1,0 +1,26 @@
+
+@import '~antd/dist/antd.css';
+ul{
+    list-style: none;
+    overflow: hidden;
+}
+
+ul li{
+    float: left;
+    margin-right: 10px;
+    text-decoration: none;
+    font-weight: 600;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.home-content{
+    font-size: 40px;
+    text-align: center;
+}
+.home-content h3{    
+    background-image: -webkit-linear-gradient(100deg, #e4bcb2 0%, #BC70A4 45%, #e0d640 75%);
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
