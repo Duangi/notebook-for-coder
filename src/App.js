@@ -4,7 +4,7 @@ import './css/App.css'
 
 const Todos = lazy(() => import('./components/Todos'));
 const DH_Input = lazy(() => import('./components/Second'));
-
+const Editor = lazy(()=> import('./components/Editor'))
 function App() {
   return (
     <Router>
@@ -19,6 +19,9 @@ function App() {
         <li>
           <Link to="/second">second</Link>
         </li>
+        <li>
+            <Link to="/editor">editor</Link>
+        </li>
       </ul>
       <hr />
       <Suspense fallback={<div>Loading...</div>}>
@@ -26,6 +29,7 @@ function App() {
         <Route exact path="/" component={Home}/>
         <Route path="/todos" component={Todos}/>
         <Route path="/second" component={DH_Input}/>
+        <Route path="/editor" component={Editor}/>
       </Switch>
     </Suspense>
     </div>   
