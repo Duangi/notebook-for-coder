@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route,Switch, Link } from 'react-router-dom';
 import './css/App.css'
 
 const Todos = lazy(() => import('./components/Todos'));
-const DH_Input = lazy(() => import('./components/Second'));
+const Cover = lazy(() => import('./components/Cover'));
 
 function App() {
   return (
@@ -17,15 +17,15 @@ function App() {
           <Link to="/todos">first</Link>
         </li>
         <li>
-          <Link to="/second">second</Link>
+          <Link to="/index">second</Link>
         </li>
       </ul>
       <hr />
       <Suspense fallback={<div>Loading...</div>}>
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={Cover}/>
         <Route path="/todos" component={Todos}/>
-        <Route path="/second" component={DH_Input}/>
+        <Route path="/index" component={Cover}/>
       </Switch>
     </Suspense>
     </div>   
@@ -33,12 +33,12 @@ function App() {
   );
 }
 
-function Home() {
-  return(
-    <div className="home-content">
-      <h3> 看啥呢？动手啊！</h3>
-    </div>
-  )
-}
+// function Home() {
+//   return(
+//     <div className="home-content">
+//       <h3> 看啥呢？动手啊！</h3>
+//     </div>
+//   )
+// }
 
 export default App;
