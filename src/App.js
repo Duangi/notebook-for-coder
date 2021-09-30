@@ -1,9 +1,12 @@
-import React, {Suspense, lazy } from 'react';
+import React, {Suspense } from 'react';
 import { BrowserRouter as Router, Route,Switch, Link } from 'react-router-dom';
 import './css/App.css'
 
-const Todos = lazy(() => import('./components/Todos'));
-const Cover = lazy(() => import('./components/Cover'));
+import Todos from './components/Todos';
+// import DH_Input from './components/Second';
+import Cover from './components/Cover';
+import Editor from './components/Editor';
+import Paragraph from './containers/paragraph';
 
 function App() {
   return (
@@ -17,28 +20,20 @@ function App() {
           <Link to="/todos">first</Link>
         </li>
         <li>
-          <Link to="/index">second</Link>
+          <Link to="/second">second</Link>
         </li>
       </ul>
       <hr />
-      <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route exact path="/" component={Cover}/>
-        <Route path="/todos" component={Todos}/>
-        <Route path="/index" component={Cover}/>
-      </Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+            <Route exact path="/" component={Cover}/>
+            <Route path="/todos" component={Todos}/>
+            <Route path="/second" component={Paragraph}/>
+        </Switch>
     </Suspense>
-    </div>   
+    </div>
   </Router>
   );
 }
-
-// function Home() {
-//   return(
-//     <div className="home-content">
-//       <h3> 看啥呢？动手啊！</h3>
-//     </div>
-//   )
-// }
 
 export default App;
