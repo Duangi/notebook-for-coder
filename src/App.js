@@ -5,8 +5,8 @@ import './css/App.css'
 import Todos from './components/Todos';
 // import DH_Input from './components/Second';
 import Cover from './components/Cover';
-import Editor from './components/Editor';
-import Paragraph from './containers/paragraph';
+// import Paragraph from './containers/paragraph';
+import Editor from './containers/editor';
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         <Switch>
             <Route exact path="/" component={Cover}/>
             <Route path="/todos" component={Todos}/>
-            <Route path="/second" component={Paragraph}/>
+            <Route path="/second" component={Editor}/>
         </Switch>
     </Suspense>
     </div>

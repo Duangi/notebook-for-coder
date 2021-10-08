@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {createChangeParaModeAction} from '../redux/actions/paragraph'
 class Paragraph extends Component {
+
     render() {
         return (
             <div>
-                <p contentEditable="true" >
+                <p id="h1" contentEditable="true">
                 </p>
                 <button onClick={this.changeMode}>
                     修改属性为h1
@@ -15,7 +16,7 @@ class Paragraph extends Component {
         )
     }
     changeMode = ()=>{
-        console.log(111);
+        document.getElementById('h1').setAttribute('type','h1');
     }
 }
 
