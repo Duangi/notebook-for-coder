@@ -1,9 +1,12 @@
-import React, {Suspense, lazy } from 'react';
+import React, {Suspense } from 'react';
 import { BrowserRouter as Router, Route,Switch, Link } from 'react-router-dom';
 import './css/App.css'
 
-const Todos = lazy(() => import('./components/Todos'));
-const Cover = lazy(() => import('./components/Cover'));
+// const Todos = lazy(() => import('./components/Todos'));
+// const Cover = lazy(() => import('./components/Cover'));
+import Todos from './components/Todos'
+import Cover from './components/Cover'
+import Editor from './components/Editor'
 
 function App() {
   return (
@@ -25,7 +28,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Cover}/>
         <Route path="/todos" component={Todos}/>
-        <Route path="/index" component={Cover}/>
+        <Route path="/index" component={Editor}/>
       </Switch>
     </Suspense>
     </div>   
