@@ -1,47 +1,30 @@
 import React, { Component } from 'react'
 import {nanoid} from 'nanoid'
+import Paragraph from './EditorComponents/Paragraph'
 
 export default class Editor extends Component {
     state = {
         fileContent:[
             {
                 id:nanoid(10), 
-                type:'h1',
+                mdtype:'h1',
                 content:'这是一段示例'
             },
             {
                 id:nanoid(10), 
-                type:'h2',
+                mdtype:'h2',
                 content:'这是一段示例2'
             },
             {
                 id:nanoid(10), 
-                type:'h3',
+                mdtype:'h3',
                 content:'这是一段示例3'
-            },
-            {
-                id:nanoid(10), 
-                type:'button',
-                content:'btntest'
             }
         ]
     }
     render() {
         const views = this.state.fileContent.map((current,index)=>{
-            switch (current.type) {
-                case 'h1':
-                    return <h1 key={current.id} suppressContentEditableWarning='true' contentEditable='true' outline='none' onInput={(event)=>this.changeContent(index,event)} >{current.content}</h1>
-                case 'h2':
-                    return <h2 key={current.id} suppressContentEditableWarning='true' contentEditable='true' onInput={(e)=>this.changeContent(index)} >{current.content}</h2>
-                case 'h3':
-                    return <h3 key={current.id} suppressContentEditableWarning='true' contentEditable='true' onInput={(e)=>this.changeContent(index)} >{current.content}</h3>
-                case 'h4':
-                    return <h4 key={current.id} suppressContentEditableWarning='true' contentEditable='true' onInput={(e)=>this.changeContent(index)} >{current.content}</h4>  
-                case 'button':
-                    return <button key={current.id} suppressContentEditableWarning='true' contentEditable='true' onInput={(e)=>this.changeContent(index)}>{current.content}</button>      
-                default:
-                    return <p key={nanoid(10)} suppressContentEditableWarning='true' contentEditable='true'></p>
-            }
+            return <Paragraph key={current.id} mdtype={current.mdtype} content={current.content}></Paragraph>
         })
         return (
             <div>
@@ -57,5 +40,30 @@ export default class Editor extends Component {
             console.log(state)
             return state
         })
+    }
+    newLine(index){
+        this.setState(state=>{
+            // 深拷贝一份 state,修改完成之后再返回
+            // 如果直接修改state并返回，setState会执行两次(why?)
+            const temp = JSON.stringify(state)
+            const res = JSON.parse(temp)
+            res.fileContent.splice(index+1,0,{
+                id:nanoid(10), 
+                type:'p',
+                content:''
+            })
+            return res
+        })
+    }
+    handleKeyDown(index,event){
+        // 阻止回车默认事件
+        event.preventDefault()
+        console.log('keyDown')
+        if(event.keyCode === 13){
+            // 新起一行 可编辑的p标签
+            this.newLine(index)
+        }
+        
+        
     }
 }
