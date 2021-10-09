@@ -1,38 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Paragraph from './paragraph'
+import Code from './code'
 
-// import {createChangeParaModeAction} from '../redux/actions/paragraph'
+import {createNewParagraphAction} from '../redux/actions/paragraph'
 
 class Editor extends Component {
 
     render() {
         const views = this.props.fileContent.map((current,index)=>{
-            let res
-            switch (current.type){
-                case 'h1':
-                    res = <h1 key={current.id} suppressContentEditableWarning='true' contentEditable='true' onChange={}>{current.content}</h1>
-                    break
+            switch(current.mdType){
+                case 'code':
+                    return <Code></Code>
                 default:
-                    res = <p suppressContentEditableWarning='true' contentEditable='true'></p>
-                    break
+                    return <Paragraph key={current.id} index={index}></Paragraph>
             }
-            return res
         })
         return (
             <div>
                 {views}
             </div>
-            
         )
     }
     
+    newLine(index){
+        this.props.createNewParagraph(index)
+    }
 }
 
 export default connect(
     state=>({
         fileContent:state.fileContent,
     }),
+    // 将函数绑定至props上面
     {
-        // changeMode:createChangeParaModeAction
+        createNewParagraph:createNewParagraphAction
     }
 )(Editor)
