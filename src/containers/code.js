@@ -4,11 +4,10 @@ import {changeCodeTypeAction, uploadCodeFileAction, executeCodeFileAction} from 
 
 function Code(props) {
     let paraView
-    switch (props.fileContent[props.index].mdtype) {
-        default:
-            paraView = <p contentEditable='true' suppressContentEditableWarning='true'></p>
-            break;
-    }
+    paraView = <div contentEditable='true' 
+    suppressContentEditableWarning='true'
+    
+    ></div>
     return (
         paraView
     )

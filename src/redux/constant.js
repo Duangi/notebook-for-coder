@@ -1,9 +1,10 @@
 /**
  * actions/editor.js
  */
-// 在store中更改段落内容
+// 在store中更改段落内容，但不刷新页面
 export const CHANGE_PARA_CONTENT = 'change_para_content'
-
+// 在store中更改段落内容，同时更新界面
+export const CHANGE_PARA_CONTENT_WITH_REFRESH = 'change_para_content_with_refresh'
 /**
  * actions/code.js
  */
@@ -19,3 +20,4 @@ export const EXECUTE_CODE_FILE = 'execute_code_file'
  */
 // 新建一个空段落
 export const CREATE_NEW_PARAGRAPH = 'create_new_paragraph'
+export const CHANGE_PARAGRAPH_TYPE = 'change_paragraph_type'

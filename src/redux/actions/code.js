@@ -1,5 +1,9 @@
 import {CHANGE_CODE_TYPE,UPLOAD_CODE_FILE,EXECUTE_CODE_FILE} from '../constant'
 
+// 新建代码块
+// export const createNewCodeBlockAction = (index,codeType='',content='') =>{
+//     return {type:CREATE_NEW_PARAGRAPH,index,mdType,content}
+// }
 // 更改代码种类
 export const changeCodeTypeAction = (index,codeType) =>{
     return {type:CHANGE_CODE_TYPE,index,codeType}
@@ -9,8 +13,8 @@ export const changeCodeTypeAction = (index,codeType) =>{
  * 输入：代码块内容content（String），代码类型codeType（String）
  * 输出：保存至服务器的文件名
  */
-export const uploadCodeFileAction = (content,codeType) =>{
-    return {type:UPLOAD_CODE_FILE,content,codeType}
+export const uploadCodeFileAction = (pureContent,codeType) =>{
+    return {type:UPLOAD_CODE_FILE,pureContent,codeType}
 }
 
 /**运行服务器端保存好的文件
