@@ -6,7 +6,8 @@ import React from 'react'
 // import DH_Input from './components/Second';
 // import Cover from './components/Cover';
 // import Paragraph from './containers/paragraph';
-import Editor from './containers/editor';
+// import Editor from './containers/editor';
+import PreviewEditor from './containers/previewEditor';
 
 function App() {
   return (
@@ -33,9 +34,9 @@ function App() {
 //     </Suspense>
 //     </div>
 //   </Router>
-    <Editor>
+    <PreviewEditor>
 
-    </Editor>
+    </PreviewEditor>
   );
 }
 
