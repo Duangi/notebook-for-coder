@@ -1,8 +1,10 @@
 /**
  * 按键
  */
+export const KEY_BACKSPACE = 8
 export const KEY_ENTER = 13
 export const KEY_SPACE = 32
+
 
 /**
  * 正则表达式

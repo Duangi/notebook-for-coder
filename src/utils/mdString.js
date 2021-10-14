@@ -1,4 +1,5 @@
 import { REGS } from "./constant";
+
 export function stringToMdType(str) {
     // 默认返回p
     let result = 'p'
@@ -26,6 +27,8 @@ export function isHeadingType(mdType) {
 export function contentToPureContent(content,mdType) {
     if(isHeading(content)){
         let headingLength = parseInt(mdType.split('h')[1])
+        console.log('this is ',mdType)
+        console.log(content.substr(headingLength+1))
         return content.substr(headingLength+1)
     }
 }

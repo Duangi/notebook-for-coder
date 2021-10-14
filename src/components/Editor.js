@@ -4,11 +4,6 @@ import ReactMarkdown from 'react-markdown';
 const input = "# This is a header\n\nAnd this is a paragraph\n"
 
 export default class Editor extends React.Component{
-    // constructor(props){
-    //     super(props)
-    //     // console.log(1112);
-        
-    // }
     componentDidMount(){
         this.init();
     }

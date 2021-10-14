@@ -5,6 +5,9 @@
 export const CHANGE_PARA_CONTENT = 'change_para_content'
 // 在store中更改段落内容，同时更新界面
 export const CHANGE_PARA_CONTENT_WITH_REFRESH = 'change_para_content_with_refresh'
+// 在store中删除段落，同时更新界面
+export const DELETE_NODE = 'delete_node'
+
 /**
  * actions/code.js
  */

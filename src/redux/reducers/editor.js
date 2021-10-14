@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid"
 import {CHANGE_PARA_CONTENT,CHANGE_PARA_CONTENT_WITH_REFRESH,
     CHANGE_CODE_TYPE,UPLOAD_CODE_FILE,EXECUTE_CODE_FILE,
-    CREATE_NEW_PARAGRAPH, CHANGE_PARAGRAPH_TYPE} from '../constant'
+    CREATE_NEW_PARAGRAPH, CHANGE_PARAGRAPH_TYPE, DELETE_NODE} from '../constant'
 import {pureContentToContent} from '../../utils/mdString'
 
 // 文章内容默认值
@@ -11,7 +11,7 @@ const initState = {
             id: nanoid(10),
             mdType: 'h1',
             content: '# 这是一段示例1',
-            pureContent: '这是一段示例1'
+            pureContent: '这是一段示例1',
         },
         {
             id: nanoid(10),
@@ -49,6 +49,9 @@ export default function paragraphReducer(preState=initState,action){
             preStateObj.fileContent[action.index].pureContent = action.pureContent
             preStateObj.fileContent[action.index].content = pureContentToContent(action.pureContent,action.mdType)
             break
+        case DELETE_NODE:
+            preStateObj.fileContent.splice(action.index,1)
+            break
         case CHANGE_CODE_TYPE:
 
             break
@@ -66,7 +69,6 @@ export default function paragraphReducer(preState=initState,action){
                 content: action.pureContent,
                 pureContent: pureContentToContent(action.pureContent)
             })
-            console.log(preStateObj.fileContent)
             break
         case CHANGE_PARAGRAPH_TYPE:
             preStateObj.fileContent[action.index].mdType = action.mdType
