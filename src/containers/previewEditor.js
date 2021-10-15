@@ -13,21 +13,18 @@ const PreviewEditor = (props)=>{
             console.log(str)
             if(lang && hljs.getLanguage(lang)){
                 try{
-                    return '<div class="code-block"><div class="highlight-tools"><div class="code-lang">'+lang+'</div><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>'+hljs.highlight(str,{language:lang,ignoreIllegals:true}).value +'</code></div></pre></div>'
+                    return '<div class="code-block"><div class="highlight-tools"><div class="code-lang">'+lang+'</div><button class="copy-button"></button><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>'+hljs.highlight(str,{language:lang,ignoreIllegals:true}).value +'</code></div></pre></div>'
                 }catch(__){
 
                 }
             }
             // ！！！XSS漏洞：如果没有识别出当前代码类型，需要调用escapeHtml，将字符串中的 < > 等字符，转成实体名称 &lt; &gt; ……
             // 如果不转化，浏览器会直接将这段字符串转成可以渲染的html标签。用户输入的html代码就可以直接渲染，产生漏洞
-            return '<div class="code-block"><div class="highlight-tools"><div class="code-lang">'+lang+'</div><button class="copy-button" onclick="copyButtonClicked(1)">复制</button><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>'+md.utils.escapeHtml(str)+'</code></div></pre></div>'
+            return '<div class="code-block"><div class="highlight-tools"><div class="code-lang">'+lang+'</div><button class="copy-button" onclick="copyButtonClicked">复制</button><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>'+md.utils.escapeHtml(str)+'</code></div></pre></div>'
         }
     });
     
-    document.copyButtonClicked = (id)=>{
-        console.log(document.getElementById(id).value)
-    }
-    console.log(document)
+    
     return (
         <>
             <textarea className="markdownInput" id="input" rows="10" cols="150" onInput={onMarkdown}></textarea>
