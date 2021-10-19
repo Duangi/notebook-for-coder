@@ -1,3 +1,4 @@
+// 该文件只能在nodejs环境下运行，浏览器运行时请不要导入该文件
 const fs = window.require('fs').promises
 const fileHelper = {
     readFile:(path) => {

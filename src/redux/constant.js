@@ -7,6 +7,8 @@ export const CHANGE_PARA_CONTENT = 'change_para_content'
 export const CHANGE_PARA_CONTENT_WITH_REFRESH = 'change_para_content_with_refresh'
 // 在store中删除段落，同时更新界面
 export const DELETE_NODE = 'delete_node'
+// 在store中将内容绑定给特定的id，方便寻找代码块
+export const BIND_CONTENT_TO_ID = 'bind_content_to_id'
 
 /**
  * actions/code.js

@@ -6,14 +6,26 @@ import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/a11y-dark.css';
 import '../css/codeBlock.css'
+import { nanoid } from 'nanoid';
+import { bindContentToIdAction } from '../redux/actions/editor';
+import { runCode } from '../utils/codeRunner';
+// import { PYTHON } from '../utils/constant';
 
 const PreviewEditor = (props)=>{
+    window.getContentValue = function (e) {
+        const id = e.target.getAttribute('contentId')
+        console.log(window.contentMap[id])
+        runCode(window.contentMap[id],'python')
+    }
     const md = new MarkdownIt({
         highlight:function (str,lang) {
             console.log(str)
+            const contentId = nanoid(10)
+            props.bindContentToId(str,contentId)
+            console.log(window)
             if(lang && hljs.getLanguage(lang)){
                 try{
-                    return '<div class="code-block"><div class="highlight-tools"><div class="code-lang">'+lang+'</div><button class="copy-button"></button><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>'+hljs.highlight(str,{language:lang,ignoreIllegals:true}).value +'</code></div></pre></div>'
+                    return `<div class="code-block"><div class="highlight-tools"><div class="code-lang">`+lang+`</div><button contentId=${contentId} class="copy-button" onclick="getContentValue(event)">copy</button><i class="expand"></i></div><pre class="hljs"><div class="code-content"><code>`+hljs.highlight(str,{language:lang,ignoreIllegals:true}).value +`</code></div></pre></div>`
                 }catch(__){
 
                 }
@@ -37,9 +49,6 @@ const PreviewEditor = (props)=>{
         // console.log(result)
         document.getElementById('output').innerHTML = result
     }
-    function copyButtonClicked(){
-
-    }
 }
 
 export default connect(
@@ -48,5 +57,6 @@ export default connect(
     }),
     // 将函数绑定至props上面
     {
+        bindContentToId: bindContentToIdAction
     }
 )(PreviewEditor)
