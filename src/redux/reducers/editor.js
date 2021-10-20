@@ -32,8 +32,6 @@ export default function paragraphReducer(preState=initState,action){
             preStateObj.fileContent.splice(action.index,1)
             break
         case BIND_CONTENT_TO_ID:
-            console.log(action.id)
-            console.log(action.content)
             if(action.isProto){
                 if(!window.contentMap){
                     window.contentMap = {}

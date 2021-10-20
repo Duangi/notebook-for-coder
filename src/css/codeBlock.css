@@ -19,13 +19,22 @@
 .highlight-tools{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: #1c1c1c;
     /* border-radius: 7px; */
     height: 2rem;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
 }
-.highlight-tools::before{
+.highlight-tools-left{
+    display: flex;
+    align-items: center;
+}
+.highlight-tools-right{
+    display: flex;
+    align-items: center;
+}
+.highlight-tools-left::before{
     height: 12px;
     width: 12px;
     border-radius: 50%;
@@ -35,6 +44,18 @@
     content: ' ';
 }
 .copy-button{
-    
-    content: "\f0ea";
+    float: right;
+}
+.preview-editor{
+    display: flex
+
+}
+#input{
+    flex: 1;
+    resize: none;
+    border: 0;
+    font-size: 18px;
+}
+#output{
+    flex: 1;
 }
