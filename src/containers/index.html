@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <div id="out"></div>
+</head>
+<body>
+    <script>
+        let html = `<div id = test contenteditable = true>
+                        123
+                    </div>`
+        document.getElementById('out').innerHTML = html
+        changeFocus(document.getElementById('test'))
+
+        function changeFocus(target) {
+            const selection = window.getSelection()
+            selection.collapse(target,1)
+        }
+    </script>
+</body>
+</html>

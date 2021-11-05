@@ -1,128 +1,125 @@
 
-import React  from 'react'
+import React , {useEffect}from 'react'
 import { connect } from 'react-redux'
-import MarkdownIt from 'markdown-it'
-// import { nanoid } from 'nanoid'
-import hljs from 'highlight.js'
+import MarkdownCompiler from 'markdowncompiler'
+import hljs from 'highlight.js';
 import 'highlight.js/styles/a11y-dark.css';
 import '../css/codeBlock.css'
-import { nanoid } from 'nanoid';
 import { bindContentToIdAction } from '../redux/actions/editor';
-import { runCode } from '../utils/codeRunner';
-// import { PYTHON } from '../utils/constant';
+import { escapeHtml } from '../utils/tools';
+import { KEY_BACKSPACE } from '../utils/constant';
+import {getMarkdownOffset,focusToFenceByOffset} from '../utils/domApi'
 
 const PreviewEditor = (props)=>{
-    window.getContentValue = function (e) {
-        const id = e.target.getAttribute('contentId')
-        console.log(window.contentMap[id])
-        runCode(window.contentMap[id],'python')
+    const complier = new MarkdownCompiler()
+    // 将MarkdownCompiler的实例同时绑定在window上，方便给html绑定
+    window.markdownCompiler = complier
+    window.preventContentEditableDefault = (index,type,e)=>{
+        // if()
+        e.preventDefault()
+        return false
     }
-    const md = new MarkdownIt({
-        highlight:function (str,lang) {
-            const contentId = nanoid(10)
-            props.bindContentToId(str,contentId)
-            if(lang && hljs.getLanguage(lang)){
-                try{
-                    return hljs.highlight(str,{language:lang,ignoreIllegals:true}).value
-                }catch(__){}
-            }
-            return ''
-        }
-    });
-    window.markdownit = md
-    // 传入tokens的index,类型,
-    // window.refresh = function (index,type,event) {
-    //     console.log(index)
+    // 绑定改变token的函数
+    complier.changeToken = (index,type,event)=>{
+        console.log(event)
+        // debugger
+        // 记录焦点所在的锚点的父节点
+        const anchorParentNode = event.target
+        // 获取代码块内容改变之后的锚点
+        const anchorNode = window.getSelection().anchorNode
+        // 获取该锚点的偏移量
+        const anchorOffset = window.getSelection().anchorOffset
         
-    //     console.log(event)
-    //     if(type === 'info'){
-    //         window.tokens[index][type] = event.target.innerHTML
-    //         const map = window.tokens[index].map
-    //         const line_begin = map[0]
-    //         const line_end = map[1]
-    //         console.log(window.originContent)
-    //     }
+        // 记录焦点在markdownstring中的偏移量
+        let markdownOffset = getMarkdownOffset(anchorNode,anchorOffset,anchorParentNode)
         
-    //     console.log(window.tokens[index][type])
-    //     console.log(window)
-    //     // const result = window.md.renderer.render(window.tokens)
-    //     // document.getElementById('output').innerHTML = result
-    // }
-    md.renderer.rules.fence = function (tokens, idx, options, env, slf) {
-        var token = tokens[idx],
-        info = token.info ? md.utils.unescapeAll(token.info).trim() : '',
-        langName = '',
-        langAttrs = '',
-        highlighted, i, arr, tmpAttrs, tmpToken;
-
-        if (info) {
-            arr = info.split(/(\s+)/g);
-            langName = arr[0];
-            langAttrs = arr.slice(2).join('');
-        }
-
-        if (options.highlight) {
-            highlighted = options.highlight(token.content, langName, langAttrs) || md.utils.escapeHtml(token.content);
-        } else {
-            highlighted = md.utils.escapeHtml(token.content);
-        }
-
-        if (highlighted.indexOf('<pre') === 0) {
-            return highlighted + '\n';
-        }
-
-        // 代码块语言类型存在的情况,即在```后写了代码类型 比如 ```python\nprint(123)\n```
-        // If language exists, inject class gently, without modifying original token.
-        // May be, one day we will add .deepClone() for token and simplify this part, but
-        // now we prefer to keep things local.
-        if (info) {
-            i        = token.attrIndex('class');
-            tmpAttrs = token.attrs ? token.attrs.slice() : [];
-
-            if (i < 0) {
-                tmpAttrs.push([ 'class', options.langPrefix + langName ]);
-            } else {
-                tmpAttrs[i] = tmpAttrs[i].slice();
-                tmpAttrs[i][1] += ' ' + options.langPrefix + langName;
-            }
-
-            // Fake token just to render attributes
-            tmpToken = {
-                attrs: tmpAttrs
-            };
-
-            // 代码块自定义部分
-            return `<div class="code-block"><div class="highlight-tools"><div class="highlight-tools-left"><div class="code-lang">` + langName+
-            `</div></div><div class="highlight-tools-right"><button class="copy-button">copy</button><button class="expand">expand</button></div></div><pre class="hljs"><div class="code-content"><code` +slf.renderAttrs(tmpToken) +'>'+ highlighted +`</code></div></pre></div>\n`
-        }
-
-        // 用户没有输入代码块类型的情况
-        return  `<div class="code-block"><div class="highlight-tools"><div class="highlight-tools-left"><div class="code-lang">` + 
-        langName+`</div></div><div class="highlight-tools-right"><button class="copy-button">copy</button><i class="expand"></i></div></div><pre class="hljs"><div class="code-content"><code>` + highlighted +`</code></div></pre></div>\n`
+        console.log('markdownOffset',markdownOffset)
+        const content = event.target.innerText
+        window.markdownCompiler.state.changeTokenByProxy(index,type,content)
+        const str = window.markdownCompiler.parserInstance.tokens2Markdown(window.markdownCompiler.state.tokens)
+        document.getElementById('input').value = str
+        onMarkdown()
+        focusToFenceByOffset(index,markdownOffset)
+        
+        
     }
-    
+    complier.copy = (index,type)=>{
+        // const text = complier.state.tokens[index][type]
+        // document.execCommand("copy")
+    }
+    complier.backspaceHandler = (index,event)=>{
+        // 当该token content为空时，将默认事件
+        console.log(222)
+        if(event.keyCode === KEY_BACKSPACE){
+            console.log('111')
+            if(complier.state.tokens[index].content === ''){
+                event.preventDefault()
+            }
+        }
+    }
+    // console.log(md.parser('# 123\n'))
+    complier.renderInstance.rules.fence = (tokens,index) => {
+        if(hljs.getLanguage(tokens[index].info)){
+            console.log(window.markdownCompiler)
+            return `<div class="code-block">
+                        <div class="highlight-tools" contenteditable = true oninput="window.markdownCompiler.changeToken(${index},'info',event)">
+                            <div class="highlight-tools-left" >
+                                <div id=${"token"+index+"_info"} class="code-lang" >${tokens[index].info}</div>
+                            </div>
+                            <div class="highlight-tools-right" contenteditable = false>
+                                
+                                <div class="copy-button" title="复制"></div>
+                                <div class="run-button" title="运行"></div>
+                                
+                            </div>
+                        </div>
+                        <pre class="hljs"><div  class="code-content" contenteditable = "true" oninput="window.markdownCompiler.changeToken(${index},'content',event)" onkeydown="" ><code id=${"token"+index+"_content"}  >${hljs.highlight(escapeHtml(tokens[index].content),{language:tokens[index].info, ignoreIllegals:true}).value }</code></div></pre>
+                    </div>`
+        }
+        return `<div class="code-block" >
+                    <div class="highlight-tools" contenteditable = true oninput="window.markdownCompiler.changeToken(${index},'info',event.target)">
+                        <div class="highlight-tools-left" >
+                            <div id=${"token"+index+"_info"} class="code-lang"  >${tokens[index].info}</div>
+                        </div>
+                        <div class="highlight-tools-right" contenteditable = false>
+                            <div class="copy-button" title="复制" onclick="let text = document.getElementById(${"token"+index+"_content"}).innerText;" ></div>
+                            <div class="run-button" title="运行"></div>
+                        </div>
+                    </div>
+                    <pre class="hljs"><div class="code-content" contenteditable = true oninput="window.markdownCompiler.changeToken(${index},'content',event.target)"><code id=${"token"+index+"_content"}  >${escapeHtml(tokens[index].content) }</code></div></pre>
+                </div>`
+        
+    }
+    /* eslint-disable */
+    useEffect(() => {
+        // 组件开始的时候默认渲染
+        onMarkdown()
+        // setInterval(()=>console.log(window.getSelection()),1000)
+        const a = document.getElementsByClassName('code-lang')
+        console.log(a)
+        // changeFocus(a)
+    }, [])
+    /* eslint-enable */
     return (
+        <>
         <div className='preview-editor'>
-            <textarea className="markdownInput" id="input" rows="50" cols="60" onInput={onMarkdown}></textarea>
-            <div id="output"></div>
+            <textarea  className="markdownInput" id="input" style={{display:"none"}} rows="50" cols="60" onInput={onMarkdown}></textarea>
+            <div cid = "123" id="editor"></div>
         </div>
+        </>
     )
     function onMarkdown() {
-        console.log(11111)
         const value = document.getElementById('input').value
-        const parseResult = md.parse(value)
-        window.tokens = parseResult
-        console.log(window.tokens)
-        const result = md.render(value)
-        // const result = md.renderer.render(parseResult,md.options)
-        
-        document.getElementById('output').innerHTML = result
+        const parseResult = complier.parser(value)
+        const result = complier.render(parseResult)
+        document.getElementById('editor').innerHTML = result
     }
 }
 
 export default connect(
     state=>({
-        fileContent:state.fileContent,
+        fileContent: state.fileContent,
+        compiler: state.compiler
     }),
     // 将函数绑定至props上面
     {

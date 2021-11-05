@@ -4,13 +4,9 @@ import {CHANGE_PARA_CONTENT,CHANGE_PARA_CONTENT_WITH_REFRESH,
     CREATE_NEW_PARAGRAPH, CHANGE_PARAGRAPH_TYPE, DELETE_NODE, BIND_CONTENT_TO_ID} from '../constant'
 import {pureContentToContent} from '../../utils/mdString'
 
-// 文章内容默认值
-const initState = {
-    fileContent:
-    "## This is a markdown content",
-    contentDictionary:{
 
-    }
+const initState = {
+    fileContent:"## This is a markdown content",
 }
 export default function paragraphReducer(preState=initState,action){
     const {type} = action

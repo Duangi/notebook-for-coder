@@ -2,29 +2,40 @@
     /* border-radius: 7px; */
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
-    
+}
+.hljs:hover{
+    cursor: text;
 }
 .code-content{
     margin-top: 1em;
     margin-left: 2em;
     margin-bottom: 1em;
 }
+.code-content:hover{
+    cursor: text;
+}
 .code-lang{
+    flex-grow: 1;
+    border-radius: 7px;
     color: #EEFFFF;
     margin-left: 4em;
     font-size: 1.15em;
     font-weight: 700;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 .highlight-tools{
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: #1c1c1c;
+    /* background: white; */
     /* border-radius: 7px; */
     height: 2rem;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
+}
+.highlight-tools:hover{
+    cursor: text;
 }
 .highlight-tools-left{
     display: flex;
@@ -33,6 +44,9 @@
 .highlight-tools-right{
     display: flex;
     align-items: center;
+}
+.highlight-tools-right:hover{
+    cursor: default;
 }
 .highlight-tools-left::before{
     height: 12px;
@@ -44,11 +58,28 @@
     content: ' ';
 }
 .copy-button{
-    float: right;
+    height: 25px;
+    width: 25px;
+    background-image: url("../imgs/svg/copy_white.svg");
+    background-repeat: no-repeat;
+}
+.run-button{
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 25px;
+    width: 25px;
+    background-image: url("../imgs/svg/run_white.svg");
+    background-repeat: no-repeat;
+}
+.copy-button:hover{
+    cursor: pointer;
+}
+.run-button:hover{
+    cursor: pointer;
 }
 .preview-editor{
-    display: flex
-
+    display: flex;
+    
 }
 #input{
     flex: 1;
@@ -56,6 +87,6 @@
     border: 0;
     font-size: 18px;
 }
-#output{
+#editor{
     flex: 1;
 }

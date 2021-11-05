@@ -5,6 +5,9 @@ export const KEY_BACKSPACE = 8
 export const KEY_ENTER = 13
 export const KEY_SPACE = 32
 
+export const CHAR_TAB = 0x09
+export const CHAR_NEW_LINE = 0x0A
+export const CHAR_SPACE = 0x20
 
 /**
  * 正则表达式
