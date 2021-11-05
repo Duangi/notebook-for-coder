@@ -15,8 +15,9 @@ export function getMarkdownOffset(anchorNode,anchorOffset,target) {
             anchorNodes = anchorNodesList[i]
         }
         for(let j = 0;j<anchorNodes.childNodes.length;j++){
-            if(anchorNode === anchorNodes && anchorNode.innerText === '\n'){
-                markdownOffset += 1
+            
+            if((anchorNode === anchorNodes && anchorNode.innerText === '\n') || anchorNode === anchorNodes.firstChild){
+                markdownOffset = markdownOffset + anchorOffset + 1
                 console.log('焦点在string中的偏移量为： ',markdownOffset)
                 ok = true   // 已经找到焦点位置
                 break

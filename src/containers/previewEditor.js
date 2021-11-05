@@ -38,8 +38,8 @@ const PreviewEditor = (props)=>{
         window.markdownCompiler.state.changeTokenByProxy(index,type,content)
         const str = window.markdownCompiler.parserInstance.tokens2Markdown(window.markdownCompiler.state.tokens)
         document.getElementById('input').value = str
-        onMarkdown()
-        focusToFenceByOffset(index,markdownOffset)
+        // onMarkdown()
+        // focusToFenceByOffset(index,markdownOffset)
         
         
     }
