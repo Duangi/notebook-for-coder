@@ -1,6 +1,11 @@
 // 输入锚点，偏移量，锚点属于的父节点
 // 输出焦点在原字符串中的偏移量
-export function getMarkdownOffset(anchorNode,anchorOffset,target) {
+export function getMarkdownOffset(target) {
+    // 获取代码块内容改变之后的锚点
+    const anchorNode = window.getSelection().anchorNode
+    // 获取该锚点的偏移量
+    const anchorOffset = window.getSelection().anchorOffset
+
     let markdownOffset = 0
     let anchorNodesList = target.childNodes
     // debugger
@@ -16,16 +21,10 @@ export function getMarkdownOffset(anchorNode,anchorOffset,target) {
         }
         for(let j = 0;j<anchorNodes.childNodes.length;j++){
             
-            if((anchorNode === anchorNodes && anchorNode.innerText === '\n') || anchorNode === anchorNodes.firstChild){
-                markdownOffset = markdownOffset + anchorOffset + 1
-                console.log('焦点在string中的偏移量为： ',markdownOffset)
-                ok = true   // 已经找到焦点位置
-                break
-            }
             let textNode = anchorNodes.childNodes[j]
             // 处理<div></div>
             if(anchorNode === textNode && anchorNode.data === '\n'){
-                markdownOffset += 1
+                // markdownOffset += 1
                 console.log('焦点在string中的偏移量为： ',markdownOffset)
                 ok = true   // 已经找到焦点位置
                 break
@@ -53,10 +52,10 @@ export function getMarkdownOffset(anchorNode,anchorOffset,target) {
     return markdownOffset
 }
 
-export function focusToFenceByOffset(index,markdownOffset) {
+export function focusToFenceByOffset(index,type,markdownOffset) {
     let focusInfo = {anchorNode:null,anchorOffset:0}
-    console.log(document.getElementById(`token${index}_${'content'}`))
-    const codeNodes = document.getElementById(`token${index}_${'content'}`).childNodes
+    console.log(document.getElementById(`token${index}_${type}`))
+    const codeNodes = document.getElementById(`token${index}_${type}`).childNodes
     // debugger
     for(let i = 0,currentOffset = 0;i<codeNodes.length;i++){
         let textNode = codeNodes[i]

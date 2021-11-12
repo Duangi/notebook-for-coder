@@ -6,17 +6,20 @@ import {FILE_EXTENSION_MAP} from './constant'
  * http://49.232.203.150:8080/upload
  */
 function uploadFile(file){
-    axios.post('http://49.232.203.150:8080/upload',
-        {file}
+    // axios.post('http://localhost:8000/fetch-server',
+    axios.post('http://localhost:8081/upload-file',
+        file
     ).then(value=>{
         console.log(value)
+    }).catch(e=>{
+        console.log(e)
     })
 }
 
 export function runCode(str,codeType){
     const file = strToFile(str,codeType)
     if(file !== -1){
-        uploadFile(file)
+        return uploadFile(file)
     }
     else {
         console.log('当前代码类型无法解析')

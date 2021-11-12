@@ -4,6 +4,7 @@
 export const KEY_BACKSPACE = 8
 export const KEY_ENTER = 13
 export const KEY_SPACE = 32
+export const KEY_TAB = 9
 
 export const CHAR_TAB = 0x09
 export const CHAR_NEW_LINE = 0x0A
